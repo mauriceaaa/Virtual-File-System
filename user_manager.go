@@ -4,9 +4,10 @@ import (
 	"fmt"
 )
 
+// User
 type User struct {
-	Username string
-	Folders  map[string]*Folder
+	Username string             //使用者名稱
+	Folders  map[string]*Folder //使用者名稱
 }
 
 type UserManager struct {
@@ -19,6 +20,7 @@ func NewUserManager() *UserManager {
 	}
 }
 
+// AddUser 新增使用者
 func (um *UserManager) AddUser(username string) error {
 	if _, exists := um.users[username]; exists {
 		return fmt.Errorf("user '%s' already exists", username)
@@ -30,6 +32,7 @@ func (um *UserManager) AddUser(username string) error {
 	return nil
 }
 
+// GetUser 使用者清單
 func (um *UserManager) GetUser(username string) (*User, error) {
 	user, exists := um.users[username]
 	if !exists {

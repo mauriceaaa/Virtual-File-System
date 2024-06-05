@@ -7,8 +7,9 @@ import (
 	"strings"
 )
 
+// 循環執行命令。
 func main() {
-	fmt.Println("Starting VFS Program...")
+	fmt.Println("Welcome VFS...")
 	userManager := NewUserManager()
 	folderManager := NewFolderManager(userManager)
 	fileManager := NewFileManager(userManager)
@@ -16,23 +17,25 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
+		//default 格式
 		fmt.Print("Enter command: ")
 		command, err := reader.ReadString('\n')
 		if err != nil {
-			fmt.Println("Error reading command:", err)
+			fmt.Println("Error reading:", err)
 			continue
 		}
 		command = strings.TrimSpace(command)
 		parts := strings.Split(command, " ")
 		if len(parts) < 2 {
-			fmt.Println("Invalid command format")
+			fmt.Println("Invalid command")
 			continue
 		}
 
 		switch parts[0] {
+		//新增使用者
 		case "register":
 			if len(parts) != 2 {
-				fmt.Println("Invalid command format")
+				fmt.Println("Invalid command")
 				continue
 			}
 			username := parts[1]
@@ -42,9 +45,10 @@ func main() {
 			} else {
 				fmt.Printf("User '%s' registered successfully\n", username)
 			}
+		// 新增資料夾
 		case "create-folder":
 			if len(parts) != 3 {
-				fmt.Println("Invalid command format")
+				fmt.Println("Invalid command")
 				continue
 			}
 			username := parts[1]
@@ -55,9 +59,10 @@ func main() {
 			} else {
 				fmt.Printf("Folder '%s' created successfully for user '%s'\n", folderName, username)
 			}
+		// 列出資料夾清單
 		case "list-folders":
 			if len(parts) < 2 {
-				fmt.Println("Invalid command format")
+				fmt.Println("Invalid command")
 				continue
 			}
 			username := parts[1]
@@ -77,9 +82,10 @@ func main() {
 					fmt.Printf("Folder Name: %s, Created At: %s\n", folder.Name, folder.CreatedAt.Format("2006-01-02 15:04:05"))
 				}
 			}
+		//新增檔案
 		case "create-file":
 			if len(parts) < 5 {
-				fmt.Println("Invalid command format")
+				fmt.Println("Invalid command")
 				continue
 			}
 			username := parts[1]
@@ -92,6 +98,7 @@ func main() {
 			} else {
 				fmt.Printf("File '%s' created successfully in folder '%s' for user '%s'\n", fileName, folderName, username)
 			}
+		// 列出資料夾底下的檔案清單
 		case "list-files":
 			if len(parts) < 3 {
 				fmt.Println("Usage: list-files [username] [foldername] [--sort-name|--sort-created] [asc|desc]")
@@ -123,7 +130,7 @@ func main() {
 				}
 			}
 		default:
-			fmt.Println("Unknown command:", parts[0])
+			fmt.Println("Unrecognized command:", parts[0])
 		}
 	}
 }

@@ -6,14 +6,15 @@ import (
 	"time"
 )
 
+// File
 type File struct {
-	Name        string
-	Description string
-	CreatedAt   time.Time
+	Name        string    // 檔案名稱
+	Description string    // 檔案描述
+	CreatedAt   time.Time // 新增時間
 }
 
 type FileManager struct {
-	userManager *UserManager
+	userManager *UserManager // 用戶管理
 }
 
 func NewFileManager(userManager *UserManager) *FileManager {
@@ -22,6 +23,7 @@ func NewFileManager(userManager *UserManager) *FileManager {
 	}
 }
 
+// CreateFile 新增檔案
 func (fm *FileManager) CreateFile(username, folderName, fileName, description string) error {
 	user, err := fm.userManager.GetUser(username)
 	if err != nil {
@@ -45,6 +47,7 @@ func (fm *FileManager) CreateFile(username, folderName, fileName, description st
 	return nil
 }
 
+// ListFiles 列出檔案清單
 func (fm *FileManager) ListFiles(username, folderName, sortBy, order string) ([]*File, error) {
 	user, err := fm.userManager.GetUser(username)
 	if err != nil {
